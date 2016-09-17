@@ -1,0 +1,163 @@
+\documentclass[%
+	paper=a4,
+	fontsize=10pt,
+	DIV11,BCOR10mm,
+	numbers=noenddot,
+	abstract=yes
+]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{tgpagella}
+\usepackage{microtype}
+
+
+\usepackage{textcomp}
+\usepackage{gensymb}
+
+
+\usepackage{graphicx}
+
+
+\usepackage{xfrac}
+\usepackage{units}
+
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+
+\usepackage{scrhack} % for algorithm package
+\usepackage[boxed]{algorithm}
+\usepackage{algpseudocode}
+
+
+\usepackage[
+	style=alphabetic,
+	bibstyle=alphabetic,
+	maxbibnames=100,
+	giveninits=true,
+	useprefix=true,
+	natbib=true,
+	backend=biber]{biblatex}
+\usepackage[strict=true]{csquotes}
+\addbibresource{references.bib}
+
+
+\usepackage{hyperref}
+\hypersetup{
+	%colorlinks,
+	%citecolor=black,
+	%filecolor=black,
+	%linkcolor=black,
+	%urlcolor=black,
+	pdfauthor={Christoph Conrads},
+	unicode=true,
+}
+
+
+% Make links jump to the beginning of figures and tables, not to the caption in
+% them.
+% This can also be fixed with the caption package.
+\usepackage[all]{hypcap}
+
+
+
+% Command definitions
+\newcommand{\R}{\mathbb{R}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+\newtheorem{definition}{Definition}[section]
+
+
+
+\title{FizzBuzz with Fibonacci Primes}
+\author{Christoph Conrads {\small \url{https://christoph-conrads.name}}}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+
+\section{Task}
+
+The goal is to implement a variant of FizzBuzz \cite{Atwood2007}. Let $F(n)$ be
+the $n$-th Fibonacci number. Given a positive negative integer $N$,
+\begin{itemize}
+	\item print \texttt{BuzzFizz} if $F(n)$ is a prime number, otherwise
+	\item print \texttt{FizzBuzz} if $F(n)$ is divisible by 15, otherwise
+	\item print \texttt{Fizz} if $F(n)$ is divisible by 5, otherwise
+	\item print \texttt{Buzz} if $F(n)$ is divisible by 3, otherwise
+	\item print $F(n)$
+\end{itemize}
+for all numbers $1 \leq n \leq N$.
+
+
+
+\section{Implementation}
+
+\begin{definition}[Fibonacci series {\cite[§2]{Hoggatt1969}}]
+	The sequence
+	\begin{align*}
+		F(0) &\coloneqq 0, \\
+		F(1) &\coloneqq 1, \\
+		F(n) &\coloneqq F(n-1) + F(n-2)
+	\end{align*}
+	is called \emph{Fibonacci series} and the terms $F(n)$ are called
+	\emph{Fibonacci numbers}.
+\end{definition}
+
+On a computer, the major problems to be solved are the representation of $F(n)$
+and determinining the primality of $F(n)$.
+
+Representing $F(n)$ is non-trivial on a computer because $F(94) \approx
+10^{19.30} > 2^{64} - 1$ meaning we cannot store $F(94)$ is an unsigned
+\unit[64]{bit} integer. $F(1476) \approx 10^{308.1}$ is already larger then the
+maximum finite value representable with IEEE-754 double precision floats.
+Consequently, the program must use a big integer implementation.
+
+Testing for primality is difficult because $F(n)$ grows exponentially \cite[§6,
+Theorem~1]{Hoggatt1969} and because there are
+\[ \pi(n) \approx \frac{n}{\ln n} \]
+primes below $n$ \cite[381\psq]{Knuth1998}. Hence number
+sieves are probably ineffective and the memory used for storing many, large
+prime numbers cannot be used for the representation of $F(n)$. Alternatively, we
+can use primality tests. The Miller-Rabin primality test
+\cite[395\psq]{Knuth1998} is a probabilistic test; the algorithm recognizes
+prime numbers reliably whereas for composite numbers, there is a $25\%$ chance
+that it may fail to recognize these numbers as a composite and this probability
+holds for any natural number. Repeating the test $k$ times decreases the chance
+of misclassifying a composite to $4^{-k}$. The Miller-Rabin test is very
+effective in practice and used in cryptographic software, e.\,g., in Libgcrypt
+in combination with other probabilistic primality tests \cite[§16.5]{libgcrypt}
+or for the computation of primes for DSS \cite[\nopp C.3]{FIPS186-4}.
+
+For Fibonacci numbers $F(n)$ it holds that $F(n)$ is a divisor of $F(kn)$, $k
+\in \mathbb{N}$, $k > 1$ \cite[§7, Theorem~1]{Hoggatt1969}. Thus, $F(kn)$ must
+be a composite for all $kn > 5$. Since the computational effort of the
+Miller-Rabin test depends on the number of bits in the representation of $F(n)$
+or $n$, respectively, and since $n \ll F(n)$, this allows us to sped up
+primality checking by testing $n$ before $F(n)$ for primality. Furthermore, for
+$n \leq 2^{48}$, it is sufficient to use the first thirteen prime numbers as
+prime base in the Miller-Rabin test to get a true primality test
+\cite{Sorensen2015}. In layman's terms, we can reliably recognize composite
+numbers $n \leq 2^{48}$ with thirteen iterations of the Miller-Rabin test. For
+comparison, \cite{FIPS186-4} recommends at least $k = 64$ iterations.
+
+\printbibliography
+
+\end{document}
