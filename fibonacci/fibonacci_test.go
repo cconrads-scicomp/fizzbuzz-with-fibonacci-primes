@@ -26,7 +26,7 @@ func testGeneratorInvariant(t *testing.T, gen *generator) {
 
 
 
-func Test1(t *testing.T) {
+func TestGenerator(t *testing.T) {
 	generator := MakeGenerator()
 	testGeneratorInvariant(t, generator)
 
@@ -36,6 +36,59 @@ func Test1(t *testing.T) {
 		testGeneratorInvariant(t, generator)
 		if f.Cmp(g) != 0 {
 			t.Error("generator/f(n) mismatch", f.String(), g.String())
+		}
+	}
+}
+
+
+
+func TestCompute(t *testing.T) {
+	fibs := [...]*big.Int{
+		big.NewInt(1),
+		big.NewInt(1),
+		big.NewInt(2),
+		big.NewInt(3),
+		big.NewInt(5),
+		big.NewInt(8),
+	}
+
+	gen := MakeGenerator()
+	l := uint64(len(fibs))
+	for i := uint64(0); i < l; i++ {
+		n, f := gen.Execute()
+		g := fibs[i]
+
+		if f.Cmp(g) != 0 {
+			t.Error("expected: f=g, got:", f.String(), "!=", g.String())
+		}
+		if n != i+1 {
+			t.Error("expected: n=i+1, got:", i+1, "!=", n)
+		}
+	}
+}
+
+
+
+func TestIsPrime(t *testing.T) {
+	// indices n of prime Fibonacci numbers F(n)
+	// https://oeis.org/A001605
+	primeIndices := [...]uint64{
+		3, 4, 5, 7, 11, 13, 17, 23, 29, 43, 47, 83, 131, 137, 359,
+	}
+
+	isPrimeIndex := make(map[uint64]bool)
+	for i := 0; i <	len(primeIndices); i++ {
+		isPrimeIndex[ primeIndices[i] ] = true
+	}
+
+
+	generator := MakeGenerator()
+	for n, f := generator.Execute(); n <= 370; n, f = generator.Execute() {
+		if IsPrime(n, f) && !isPrimeIndex[n] {
+			t.Error("expected: non-primal F(n), got: n =", n, "F(n) =", f)
+		}
+		if !IsPrime(n, f) && isPrimeIndex[n] {
+			t.Error("expected: Fibonacci prime F(n), got: n =", n, "F(n) =", f)
 		}
 	}
 }
