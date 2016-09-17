@@ -1,11 +1,9 @@
 package main
 
-
 import (
 	"fizzbuzz_prime/fibonacci"
 	"testing"
 )
-
 
 func Example() {
 	// f1, f2, ... =
@@ -35,10 +33,8 @@ func Example() {
 	// FizzBuzz
 }
 
-
 const n0 = uint64(1000)
 const n1 = uint64(2000)
-
 
 func BenchmarkFibonacciPrimeTest(b *testing.B) {
 	b.StopTimer()
@@ -57,8 +53,6 @@ func BenchmarkFibonacciPrimeTest(b *testing.B) {
 		b.StopTimer()
 	}
 }
-
-
 
 func BenchmarkFibonacciFastPrimeTest(b *testing.B) {
 	b.StopTimer()

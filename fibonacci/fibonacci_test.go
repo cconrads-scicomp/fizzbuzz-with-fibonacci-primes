@@ -1,30 +1,26 @@
 package fibonacci
 
-
 import (
-	"testing"
 	"math/big"
+	"testing"
 )
-
 
 func testGeneratorInvariant(t *testing.T, gen *generator) {
 	a := gen.a
 	b := gen.b
 
 	if a.Sign() == -1 {
-		t.Error( "expected a > 0, got", a.String() )
+		t.Error("expected a > 0, got", a.String())
 	}
 	if b.Sign() < 1 {
-		t.Error( "expected b > 0, got", b.String() )
+		t.Error("expected b > 0, got", b.String())
 	}
 
 	two := big.NewInt(2)
 	if a.Cmp(b) != -1 && a.Cmp(two) >= 0 {
-		t.Error( "expected a < b, got", a.String(), ">=", b.String() )
+		t.Error("expected a < b, got", a.String(), ">=", b.String())
 	}
 }
-
-
 
 func TestGenerator(t *testing.T) {
 	generator := MakeGenerator()
@@ -39,8 +35,6 @@ func TestGenerator(t *testing.T) {
 		}
 	}
 }
-
-
 
 func TestCompute(t *testing.T) {
 	fibs := [...]*big.Int{
@@ -64,8 +58,6 @@ func TestCompute(t *testing.T) {
 	}
 }
 
-
-
 func TestIsPrime(t *testing.T) {
 	// indices n of prime Fibonacci numbers F(n)
 	// https://oeis.org/A001605
@@ -74,10 +66,9 @@ func TestIsPrime(t *testing.T) {
 	}
 
 	isPrimeIndex := make(map[uint64]bool)
-	for i := 0; i <	len(primeIndices); i++ {
-		isPrimeIndex[ primeIndices[i] ] = true
+	for i := 0; i < len(primeIndices); i++ {
+		isPrimeIndex[primeIndices[i]] = true
 	}
-
 
 	generator := MakeGenerator()
 	for n, f := generator.Execute(); n <= 370; n, f = generator.Execute() {

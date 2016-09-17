@@ -1,19 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"strconv"
-	"os"
-	"math/big"
 	"fizzbuzz_prime/fibonacci"
+	"fmt"
+	"math/big"
+	"os"
+	"strconv"
 )
-
 
 func IsZero(i *big.Int) bool {
 	return i.Sign() == 0
 }
-
-
 
 func fizzbuzz(m uint64) {
 	fibGen := fibonacci.MakeGenerator()
@@ -41,12 +38,10 @@ func fizzbuzz(m uint64) {
 		case hasFactor5:
 			fmt.Printf("Fizz\n")
 		default:
-			fmt.Printf( "%s\n", f.String() )
+			fmt.Printf("%s\n", f.String())
 		}
 	}
 }
-
-
 
 func main() {
 	args := os.Args
