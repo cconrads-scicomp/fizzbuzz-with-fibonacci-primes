@@ -44,6 +44,7 @@ func TestGenerator(t *testing.T) {
 
 func TestCompute(t *testing.T) {
 	fibs := [...]*big.Int{
+		big.NewInt(0),
 		big.NewInt(1),
 		big.NewInt(1),
 		big.NewInt(2),
@@ -52,17 +53,13 @@ func TestCompute(t *testing.T) {
 		big.NewInt(8),
 	}
 
-	gen := MakeGenerator()
 	l := uint64(len(fibs))
 	for i := uint64(0); i < l; i++ {
-		n, f := gen.Execute()
+		f := Compute(i)
 		g := fibs[i]
 
 		if f.Cmp(g) != 0 {
 			t.Error("expected: f=g, got:", f.String(), "!=", g.String())
-		}
-		if n != i+1 {
-			t.Error("expected: n=i+1, got:", i+1, "!=", n)
 		}
 	}
 }
