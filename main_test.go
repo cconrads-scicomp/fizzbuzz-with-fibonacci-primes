@@ -55,3 +55,24 @@ func BenchmarkFibonacciPrimeTest(b *testing.B) {
 		b.StopTimer()
 	}
 }
+
+
+
+func BenchmarkFibonacciFastPrimeTest(b *testing.B) {
+	b.StopTimer()
+	n0 := uint64(1000)
+
+	for i := 0; i < b.N; i++ {
+		gen := fibonacci.MakeGenerator()
+		for n := uint64(0); n < n0; n++ {
+			gen.Execute()
+		}
+
+		b.StartTimer()
+		for n := n0; n < 2000; n++ {
+			f := gen.Execute()
+			fibonacci.IsPrime(n, f)
+		}
+		b.StopTimer()
+	}
+}

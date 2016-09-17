@@ -35,3 +35,12 @@ func (gen *generator) Execute() *big.Int {
 
 	return b
 }
+
+
+
+func IsPrime(n uint64, f *big.Int) bool {
+	b := big.NewInt(0)
+	b.SetUint64(n)
+
+	return b.ProbablyPrime(1) && f.ProbablyPrime(64)
+}
