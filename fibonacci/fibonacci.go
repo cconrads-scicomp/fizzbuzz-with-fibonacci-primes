@@ -55,6 +55,10 @@ func Compute(n uint64) *big.Int {
 
 
 func IsPrime(n uint64, f *big.Int) bool {
+	if n == 4 {
+		return true
+	}
+
 	b := big.NewInt(0)
 	b.SetUint64(n)
 
