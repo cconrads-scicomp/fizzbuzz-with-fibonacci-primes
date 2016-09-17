@@ -30,26 +30,12 @@ func Test1(t *testing.T) {
 	generator := MakeGenerator()
 	testGeneratorInvariant(t, generator)
 
-	var f func(int) *big.Int
-	f = func (n int) *big.Int {
-		switch {
-		case n == 0: return big.NewInt(0)
-		case n == 1 || n == 2: return big.NewInt(1)
-		default:
-			a := f(n-1)
-			b := f(n-2)
-			return b.Add(a, b)
-		}
-	}
-
-
-	for i := 1; i < 20; i++ {
-		x := generator.Execute()
-		y := f(i)
+	for n, f := generator.Execute(); n <= 20; n, f = generator.Execute() {
+		g := Compute(n)
 
 		testGeneratorInvariant(t, generator)
-		if x.Cmp(y) != 0 {
-			t.Error("generator/f(n) mismatch", x.String(), y.String())
+		if f.Cmp(g) != 0 {
+			t.Error("generator/f(n) mismatch", f.String(), g.String())
 		}
 	}
 }

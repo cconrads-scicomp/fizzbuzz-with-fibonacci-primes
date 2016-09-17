@@ -15,16 +15,14 @@ func IsZero(i *big.Int) bool {
 
 
 
-func fizzbuzz(n uint64) {
+func fizzbuzz(m uint64) {
 	fibGen := fibonacci.MakeGenerator()
 	r := big.NewInt(-1)
 	i3 := big.NewInt(3)
 	i5 := big.NewInt(5)
 
-	for i := uint64(1); i <= n; i++ {
-		f := fibGen.Execute()
-
-		if f.ProbablyPrime(50) {
+	for n, f := fibGen.Execute(); n <= m; n, f = fibGen.Execute() {
+		if fibonacci.IsPrime(n, f) {
 			fmt.Printf("BuzzFizz\n")
 			continue
 		}
