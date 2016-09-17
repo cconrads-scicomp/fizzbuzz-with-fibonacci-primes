@@ -28,17 +28,17 @@ func fizzbuzz(m uint64) {
 		}
 
 		r.Mod(f, i3)
-		has_factor3 := IsZero(r)
+		hasFactor3 := IsZero(r)
 
 		r.Mod(f, i5)
-		has_factor5 := IsZero(r)
+		hasFactor5 := IsZero(r)
 
 		switch {
-		case has_factor3 && has_factor5:
+		case hasFactor3 && hasFactor5:
 			fmt.Printf("FizzBuzz\n")
-		case has_factor3:
+		case hasFactor3:
 			fmt.Printf("Buzz\n")
-		case has_factor5:
+		case hasFactor5:
 			fmt.Printf("Fizz\n")
 		default:
 			fmt.Printf( "%s\n", f.String() )
