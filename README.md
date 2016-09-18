@@ -13,9 +13,18 @@ The program is implemented in [Go][golang] (golang) and uses the [Miller-Rabin
 primality test][miller-rabin] with 64 iterations (see Appendix C.3 of [FIPS PUB
 186-4][fips186-4] for a rationale) to detect composite numbers.
 
+The program can be installed and run by issuing the commands
+```sh
+$ go get github.com/cconrads-scicomp/fizzbuzz-with-fibonacci-primes
+$ fizzbuzz-with-fibonacci-primes 20
+```
+in your shell. Installation instructions for the Go programming language can be
+found [here][golang-install].
+
 [fibonacci-number]: <https://en.wikipedia.org/wiki/Fibonacci_number>
 [fibonacci-prime]: <https://en.wikipedia.org/wiki/Fibonacci_prime>
 [fips186-4]: <http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf>
 [fizzbuzz]: <https://www.rosettacode.org/wiki/FizzBuzz>
 [golang]:   <https://golang.org/>
+[golang-install]: <https://golang.org/doc/install>
 [miller-rabin]: <https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test>
