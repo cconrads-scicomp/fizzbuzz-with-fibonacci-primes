@@ -16,7 +16,7 @@
 package main
 
 import (
-	"fizzbuzz_prime/fibonacci"
+	"github.com/cconrads-scicomp/fizzbuzz-with-fibonacci-primes/fibonacci"
 	"testing"
 )
 

@@ -16,7 +16,7 @@
 package main
 
 import (
-	"fizzbuzz_prime/fibonacci"
+	"github.com/cconrads-scicomp/fizzbuzz-with-fibonacci-primes/fibonacci"
 	"fmt"
 	"math/big"
 	"os"
@@ -62,7 +62,7 @@ func main() {
 	args := os.Args
 
 	if len(args) != 2 {
-		fmt.Fprintf(os.Stderr, "usage: fizzbuzz_prime <n>\n")
+		fmt.Fprintf(os.Stderr, "usage: fizzbuzz-with-fibonacci-primes <n>\n")
 		os.Exit(1)
 	}
 
